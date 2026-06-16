@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card">
+    <h2>Add Employee</h2>
+
+    <form action="{{ url_for('add_employee') }}" method="POST" class="form">
+        <input type="text" name="emp_code" placeholder="Employee Code" required>
+        <input type="text" name="name" placeholder="Employee Name" required>
+        <input type="text" name="role" placeholder="Role" required>
+        <input type="text" name="department" placeholder="Department" required>
+
+        <button type="submit">Add Employee</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>Employee List</h2>
+
+    {% if employees %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Department</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for emp in employees %}
+            <tr>
+                <td>{{ emp.id }}</td>
+                <td>{{ emp.emp_code }}</td>
+                <td>{{ emp.name }}</td>
+                <td>{{ emp.role }}</td>
+                <td>{{ emp.department }}</td>
+
+                <td>
+                    <a href="{{ url_for('edit_employee', id=emp.id) }}" class="btn edit">Edit</a>
+
+                    <form action="{{ url_for('delete_employee', id=emp.id) }}" method="POST" class="inline-form">
+                        <button type="submit" class="btn delete">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No employees found</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}
